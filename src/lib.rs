@@ -51,7 +51,9 @@ pub fn classify_script(script: &[u8]) -> ScriptType {
 }
 
 // TODO: complete Outpoint tuple struct
-pub struct Outpoint();
+//adding derive traits
+#[derive(Debug, Clone,  PartialEq, Eq)]
+pub struct Outpoint(pub String,pub u32 );
 
 pub fn read_pushdata(script: &[u8]) -> &[u8] {
     // TODO: Return the pushdata portion of the script slice (assumes pushdata starts at index 2)
@@ -88,6 +90,7 @@ pub fn move_txid(txid: String) -> String {
 }
 
 // TODO: Add necessary derive traits
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Opcode {
     OpChecksig,
     OpDup,
@@ -101,12 +104,13 @@ impl Opcode {
         match byte{
             0xac=> Ok(Opcode::OpChecksig),
             0x76=>Ok(Opcode::OpDup),
-            _=> Err(format!("Unknown opcode: 0x{:x}",byte)),
+            _=> Err(format!("Invalid opcode: 0x{:02x}",byte)),
         }
     }
 }
 
 // TODO: Add necessary derive traits
+#[derive(Debug, Clone, PartialEq)]
 pub struct UTXO {
     pub txid: Vec<u8>,
     pub vout: u32,
